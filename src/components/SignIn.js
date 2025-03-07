@@ -2,22 +2,25 @@ import React, { useState } from "react";
 import "../SignIn.css"
 import { useDispatch } from "react-redux";
 import { signIn } from "../Redux/actions";
+import { useNavigate } from "react-router-dom";
 
 
 const SignIn = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     if (!email || !password) {
       setError("Please fill in all fields.");
       return;
     }
 
-    dispatch(signIn({ email, password }));
+    await dispatch(signIn({ email, password }));
+    navigate('/profile')
     console.log("Signing in with:", { email, password });
     setError("");
   };
@@ -26,7 +29,7 @@ const SignIn = () => {
     <div className="signin-container">
       <h2>Sign In</h2>
       {error && <p className="error">{error}</p>}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(e)=>handleSubmit(e)}>
         <div className="input-group">
           <label>Email:</label>
           <input

@@ -1,11 +1,22 @@
 
-import { SIGNUP, ADD_TASK, REMOVE_TASK, EDIT_TASK, FILTER, SIGNIN, GET_AUTH, GET_COACH } from './actionTypes';
+import { 
+    SIGNUP, 
+    ADD_TASK, 
+    REMOVE_TASK, 
+    EDIT_TASK, 
+    FILTER, 
+    SIGNIN, 
+    GET_AUTH, 
+    GET_COACH,
+    SAVE_WORKOUT_LIST, 
+    LOGOUT
+} from './actionTypes';
 
 const initialState = {
     user: null,
     tasks: [],
     filter: false,
-    token: null
+    token: null,
 };
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -47,14 +58,27 @@ const reducer = (state = initialState, action) => {
                 token: action.payload.token,
             };
 
-            case GET_COACH:
+        case GET_COACH:
+            console.log(action.payload)
                 return {
                     ...state,
-                    user: action.payload.user
+                    user: action.payload
                 }
+        case SAVE_WORKOUT_LIST:
+          return {
+            ...state,
+            savedWorkouts: [...(state.savedWorkouts || []), action.payload]
+          };
+          case LOGOUT:
+            localStorage.removeItem("token")
+            return {
+                ...state,
+                user: null,
+                token: null
+            }
         default:
             return state;
-    }
+    };
 };
 
 export default reducer;

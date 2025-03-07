@@ -5,7 +5,8 @@ import { REMOVE_TASK, GET_COACH } from "./actionTypes";
 import { SIGNUP, LOGOUT } from "./actionTypes";
 import { SIGNIN, GET_AUTH } from "./actionTypes";
 import axios from "axios";
-
+import { SAVE_WORKOUT_LIST } from './actionTypes';
+import { UPDATE_SCORE, UPDATE_LEADERBOARD } from './actionTypes';
 
 export const signup = (newUser) => async (dispatch) => {
     await axios
@@ -57,3 +58,23 @@ export const getAuth = () => async (dispatch) => {
     .then((res) => dispatch({type: GET_AUTH, payload: res.data}))
     .catch((err)=> console.error(err))
 }
+export const saveWorkoutList = (tasks) => {
+  return {
+      type: SAVE_WORKOUT_LIST,
+      payload: tasks
+  };
+};
+
+export const updateScore = (userId, score) => {
+    return {
+        type: UPDATE_SCORE,
+        payload: { userId, score }
+    };
+};
+
+export const updateLeaderboard = (leaderboardData) => {
+    return {
+        type: UPDATE_LEADERBOARD,
+        payload: leaderboardData
+    };
+};

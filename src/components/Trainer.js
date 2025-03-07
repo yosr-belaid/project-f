@@ -3,19 +3,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCoach } from '../Redux/actions';  
 
 const Trainer = () => {
-    const user = useSelector(state => state.user);  
+    
     const dispatch = useDispatch();
     const [profileImage, setProfileImage] = useState(null);
 
     useEffect(() => {
-        dispatch(getCoach());
+        dispatch(getCoach())
+        console.log("ahawa" + user)
 
         // Check if there is a saved coach profile image in localStorage
         const savedProfileImage = localStorage.getItem('coachProfileImage');
         if (savedProfileImage) {
             setProfileImage(savedProfileImage);
         }
-    }, [dispatch]);
+    }, []);
+
+    const user = useSelector(state => state.user); 
 
     const handleProfileImageUpload = (event) => {
         const file = event.target.files[0];
@@ -44,14 +47,15 @@ const Trainer = () => {
                     onChange={handleProfileImageUpload} 
                     className="upload-btn"
                 />
-                {user && (
-                    <div className="user-info">
-                        <h1>{user.fullName}</h1>
-                        <p><strong>Email:</strong> {user.email}</p>
-                        <p><strong>Gender:</strong> {user.gender}</p>
-                        <p><strong>Phone Number:</strong> {user.phoneNumber}</p>
+                {/* {user?.coach  && (
+                    
+                )} */}
+                <div className="user-info">
+                        <h1>{user?.fullName}</h1>
+                        <p><strong>Email:</strong> {user?.email}</p>
+                        <p><strong>Gender:</strong> {user?.gender}</p>
+                        <p><strong>Phone Number:</strong> {user?.phoneNumber}</p>
                     </div>
-                )}
             </div>
         </div>
     );
